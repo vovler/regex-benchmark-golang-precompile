@@ -10,7 +10,7 @@ if paramCount() == 0:
 
 proc measure(data: string, pattern: string) =
   let time = cpuTime()
-  let r_pattern = re(pattern)
+  let r_pattern = re2(pattern)
   let matches = data.findAll(r_pattern)
   let count = len(matches)
   let elapsed_time = cpuTime() - time 
