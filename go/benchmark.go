@@ -9,20 +9,21 @@ import (
     "time"
 )
 
-func measure(data string, pattern string) {
-    start := time.Now()
+var (
+    emailRegex = regexp.MustCompile(`[\w\.+-]+@[\w\.-]+\.[\w\.-]+`)
+    uriRegex   = regexp.MustCompile(`[\w]+://[^/\s?#]+[^\s?#]+(?:\?[^\s#]*)?(?:#[^\s]*)?`)
+    ipRegex    = regexp.MustCompile(`(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])`)
+)
 
-    r, err := regexp.Compile(pattern)
-    if err != nil {
-        log.Fatal(err)
-    }
+func measure(data string, r *regexp.Regexp) {
+    start := time.Now()
 
     matches := r.FindAllString(data, -1)
     count := len(matches)
 
     elapsed := time.Since(start)
 
-    fmt.Printf("%f - %v\n", float64(elapsed) / float64(time.Millisecond), count)
+    fmt.Printf("%f - %v\n", float64(elapsed)/float64(time.Millisecond), count)
 }
 
 func main() {
@@ -42,11 +43,11 @@ func main() {
     data := buf.String()
 
     // Email
-    measure(data, `[\w\.+-]+@[\w\.-]+\.[\w\.-]+`)
+    measure(data, emailRegex)
 
     // URI
-    measure(data, `[\w]+://[^/\s?#]+[^\s?#]+(?:\?[^\s#]*)?(?:#[^\s]*)?`)
+    measure(data, uriRegex)
 
     // IP
-    measure(data, `(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9])`)
+    measure(data, ipRegex)
 }
