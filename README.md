@@ -123,8 +123,8 @@ Language | Email(ms) | URI(ms) | IP(ms) | Total(ms)
 The easiest way to run the benchmark is by using Docker.
 
 ```sh
-git clone https://github.com/mariomka/regex-benchmark.git
-cd regex-benchmark
+git clone https://github.com/vovler/regex-benchmark-golang-precompile.git
+cd regex-benchmark-golang-precompile
 docker run --rm -v $(pwd):/var/regex mariomka/regex-benchmark:1.6
 ```
 
